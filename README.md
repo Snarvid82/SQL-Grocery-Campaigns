@@ -11,8 +11,13 @@ We’ll be working with three tables: Campaigns, WebsiteVisits, and Transactions
 
 Challenge Questions
 Identify the top 3 users who have spent the most across all campaigns. Provide the user IDs and their total spending.
+
 Calculate the average spending per day for each campaign. Rank the campaigns based on this average spending in descending order.
+
 Which campaigns had an average transaction amount of less than $200? List the campaign names and their average transaction amounts.
+
 On which day did users spend the most? Provide the date and the total spending amount for that day.
+
 For user ID 102, list all the pages they visited and the transactions they made, in chronological order.
+
 How many users visited the ‘Checkout Page’ but did not make a transaction?
