@@ -1,0 +1,51 @@
+-- Identify the top 3 users who have spent the most across all campaigns. Provide the user IDs and their total spending.
+SELECT user_id AS 'User', SUM(amount) AS 'Total Spent'
+FROM transactions
+GROUP BY user_id
+ORDER BY SUM(amount) DESC
+LIMIT 3;
+
+-- Calculate the average spending per day for each campaign. Rank the campaigns based on this average spending in descending order.
+SELECT campaign_name AS 'Campaign Name', SUM(amount) / SUM(DATEDIFF(end_date, start_date)) AS 'Average Spending per Day'
+FROM campaigns
+JOIN websitevisits
+ON campaigns.campaign_id = websitevisits.campaign_id
+JOIN transactions
+ON websitevisits.user_id = transactions.user_id
+GROUP BY campaign_name
+ORDER BY SUM(amount) / SUM(DATEDIFF(end_date, start_date)) DESC;
+
+-- Which campaigns had an average transaction amount of less than $200? List the campaign names and their average transaction amounts.
+SELECT campaign_name AS 'Campaign Name', AVG(amount) AS 'Average Transaction Amount'
+FROM transactions
+JOIN websitevisits
+ON transactions.user_id = websitevisits.user_id
+JOIN campaigns
+ON websitevisits.campaign_id = campaigns.campaign_id
+GROUP BY campaign_name
+HAVING AVG(amount) < 200;
+
+-- On which day did users spend the most? Provide the date and the total spending amount for that day.
+SELECT DATE_FORMAT(timestamp, "%Y-%m-%d") AS 'Date', SUM(amount) AS 'Largest Spending'
+FROM transactions
+GROUP BY DATE_FORMAT(timestamp, "%Y-%m-%d")
+ORDER BY SUM(amount) DESC
+LIMIT 1;
+
+-- For user ID 102, list all the pages they visited and the transactions they made, in chronological order.
+SELECT transactions.timestamp, transactions.user_id, amount AS 'Actions'
+FROM transactions
+WHERE transactions.user_id = '102'
+UNION
+SELECT websitevisits.timestamp, websitevisits.user_id, page_visited
+FROM websitevisits
+WHERE websitevisits.user_id = '102'
+ORDER BY timestamp ASC;
+
+-- How many users visited the ‘Checkout Page’ but did not make a transaction?
+SELECT COUNT(websitevisits.user_id) AS 'Users visited checkout page but made no transactions'
+FROM websitevisits
+JOIN transactions
+ON websitevisits.user_id = transactions.user_id
+WHERE page_visited = 'Checkout Page'
+AND transactions.amount < 1;
