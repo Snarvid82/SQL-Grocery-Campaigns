@@ -1,0 +1,62 @@
+CREATE TABLE Campaigns (
+    campaign_id INT PRIMARY KEY,
+    campaign_name VARCHAR(255),
+    start_date DATE,
+    end_date DATE,
+    budget DECIMAL(10, 2)
+);
+
+CREATE TABLE WebsiteVisits (
+    visit_id INT PRIMARY KEY,
+    user_id INT,
+    campaign_id INT,
+    timestamp TIMESTAMP,
+    page_visited VARCHAR(255),
+    FOREIGN KEY (campaign_id) REFERENCES Campaigns(campaign_id)
+);
+
+CREATE TABLE Transactions (
+    transaction_id INT PRIMARY KEY,
+    user_id INT,
+    timestamp TIMESTAMP,
+    amount DECIMAL(10, 2)
+);
+
+INSERT INTO Campaigns (campaign_id, campaign_name, start_date, end_date, budget)
+VALUES 
+(1, 'Spring Sale', '2023-03-01', '2023-03-31', 10000.00),
+(2, 'Summer Fest', '2023-06-01', '2023-06-30', 15000.00),
+(3, 'Fall Frenzy', '2023-09-01', '2023-09-30', 12000.00),
+(4, 'Winter Wonderland', '2023-12-01', '2023-12-31', 13000.00),
+(5, 'New Year Blast', '2024-01-01', '2024-01-31', 14000.00),
+(6, 'Valentine Special', '2024-02-01', '2024-02-14', 7000.00);
+
+INSERT INTO WebsiteVisits (visit_id, user_id, campaign_id, timestamp, page_visited)
+VALUES 
+(1, 101, 1, '2023-03-05 08:30:00', 'Homepage'),
+(2, 102, 1, '2023-03-05 09:00:00', 'Products Page'),
+(3, 103, 2, '2023-06-10 10:30:00', 'Homepage'),
+(4, 104, 2, '2023-06-15 11:00:00', 'Checkout Page'),
+(5, 105, 3, '2023-09-05 12:30:00', 'Products Page'),
+(6, 106, 3, '2023-09-10 13:00:00', 'Checkout Page'),
+(7, 107, 4, '2023-12-05 14:30:00', 'Homepage'),
+(8, 108, 4, '2023-12-10 15:00:00', 'Products Page'),
+(9, 109, 5, '2024-01-05 16:30:00', 'Homepage'),
+(10, 110, 5, '2024-01-10 17:00:00', 'Products Page'),
+(11, 111, 6, '2024-02-05 18:30:00', 'Homepage'),
+(12, 112, 6, '2024-02-10 19:00:00', 'Checkout Page');
+
+INSERT INTO Transactions (transaction_id, user_id, timestamp, amount)
+VALUES 
+(1, 101, '2023-03-05 09:30:00', 150.00),
+(2, 102, '2023-03-05 10:00:00', 200.00),
+(3, 103, '2023-06-10 11:30:00', 250.00),
+(4, 104, '2023-06-15 12:00:00', 100.00),
+(5, 105, '2023-09-05 13:30:00', 175.00),
+(6, 106, '2023-09-10 14:00:00', 225.00),
+(7, 107, '2023-12-05 15:30:00', 125.00),
+(8, 108, '2023-12-10 16:00:00', 300.00),
+(9, 109, '2024-01-05 17:30:00', 135.00),
+(10, 110, '2024-01-10 18:00:00', 290.00),
+(11, 111, '2024-02-05 19:30:00', 190.00),
+(12, 112, '2024-02-10 20:00:00', 215.00);
